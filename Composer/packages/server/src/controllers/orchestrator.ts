@@ -8,6 +8,9 @@ import { OrchestratorModelRequest, DownloadState, IOrchestratorNLRList } from '@
 
 import { TelemetryService } from '../services/telemetry';
 import { Path } from '../utility/path';
+import { cognitiveOrchestrator } from '../services/opencog/cognitiveOrchestrator';
+import { synergyArchitecture } from '../services/opencog/synergyArchitecture';
+import log from '../logger';
 
 class OrchestratorController {
   private errorMsg: any;
@@ -76,6 +79,9 @@ class OrchestratorController {
     const onFinish = (msg: string) => {
       TelemetryService.endEvent('OrchestratorDownloadCompleted', 'OrchestratorDownloader');
       this.state = DownloadState.STOPPED;
+      
+      // Notify OpenCog orchestrator about model completion
+      this.notifyOpenCogModelReady(modelName);
     };
 
     res.send('/orchestrator/status');
@@ -87,6 +93,71 @@ class OrchestratorController {
     } catch (err) {
       this.errorMsg = err;
       this.state = DownloadState.STOPPED;
+    }
+  };
+
+  /**
+   * Notify OpenCog orchestrator about model readiness for cognitive integration
+   */
+  private notifyOpenCogModelReady = async (modelName: string) => {
+    try {
+      const cognitiveInput = {
+        type: 'model_integration',
+        modelName,
+        modelPath: await this.getModelPath(modelName),
+        capabilities: ['language_understanding', 'intent_classification', 'entity_recognition'],
+        timestamp: Date.now(),
+      };
+
+      const result = await cognitiveOrchestrator.processInput(cognitiveInput);
+      
+      log('OpenCog notified of model readiness', { 
+        modelName, 
+        cognitiveResponse: result.confidence 
+      });
+      
+    } catch (error) {
+      log('Failed to notify OpenCog orchestrator:', error);
+    }
+  };
+
+  /**
+   * Get cognitive orchestration insights for language model usage
+   */
+  public getCognitiveInsights = async (req: Request, res: Response) => {
+    try {
+      const { text, intent, entities } = req.body;
+      
+      const insightInput = {
+        type: 'language_analysis',
+        text,
+        intent,
+        entities,
+        requiresResponse: true,
+        timestamp: Date.now(),
+      };
+
+      const insights = await cognitiveOrchestrator.processInput(insightInput);
+      
+      res.json({
+        success: true,
+        insights: {
+          cognitiveAnalysis: insights.content,
+          confidenceScore: insights.confidence,
+          synergyLevel: insights.synergyLevel,
+          recommendations: insights.adaptations,
+          processingMetadata: insights.metadata,
+        },
+        timestamp: Date.now(),
+      });
+      
+    } catch (error) {
+      log('Error getting cognitive insights:', error);
+      res.status(500).json({ 
+        success: false, 
+        error: 'Failed to get cognitive insights',
+        message: error instanceof Error ? error.message : 'Unknown error'
+      });
     }
   };
 }

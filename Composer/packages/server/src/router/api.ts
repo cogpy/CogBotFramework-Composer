@@ -22,6 +22,7 @@ import { TelemetryController } from '../controllers/telemetry';
 import OrchestratorController from '../controllers/orchestrator';
 
 import { UtilitiesController } from './../controllers/utilities';
+import CognitiveOrchestratorController from '../controllers/cognitiveOrchestrator';
 
 const router: Router = express.Router({});
 
@@ -155,6 +156,21 @@ router.post('/telemetry/events', TelemetryController.track);
 router.post('/orchestrator/download', OrchestratorController.downloadLanguageModel);
 router.get('/orchestrator/status', OrchestratorController.status);
 router.get('/orchestrator/getModelList', OrchestratorController.getModelList);
+router.post('/orchestrator/getCognitiveInsights', OrchestratorController.getCognitiveInsights);
+
+// OpenCog Cognitive Orchestrator API
+router.post('/cognitive/process', CognitiveOrchestratorController.processInput);
+router.get('/cognitive/state', CognitiveOrchestratorController.getCognitiveState);
+router.get('/cognitive/architecture', CognitiveOrchestratorController.getArchitecturalState);
+router.post('/cognitive/configure', CognitiveOrchestratorController.configureCognition);
+router.post('/cognitive/patterns', CognitiveOrchestratorController.addCognitivePattern);
+router.delete('/cognitive/patterns/:patternId', CognitiveOrchestratorController.removeCognitivePattern);
+router.post('/cognitive/reset', CognitiveOrchestratorController.resetCognition);
+router.post('/cognitive/recommendations', CognitiveOrchestratorController.getOrchestrationRecommendations);
+router.post('/cognitive/optimize/dialog', CognitiveOrchestratorController.optimizeDialogFlow);
+router.post('/cognitive/response/adaptive', CognitiveOrchestratorController.generateAdaptiveResponse);
+router.post('/cognitive/autogenesis', CognitiveOrchestratorController.enableAutogenesis);
+router.get('/cognitive/monitoring', CognitiveOrchestratorController.getCognitiveMonitoring);
 
 const errorHandler = (handler: RequestHandler) => (req: Request, res: Response, next: NextFunction) => {
   Promise.resolve(handler(req, res, next)).catch(next);

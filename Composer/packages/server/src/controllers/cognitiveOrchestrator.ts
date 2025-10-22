@@ -47,7 +47,7 @@ class CognitiveOrchestratorController {
       });
       
     } catch (error) {
-      log.error('Error in cognitive processing:', error);
+      log('Error in cognitive processing:', error);
       res.status(500).json({ 
         success: false, 
         error: 'Cognitive processing failed',
@@ -72,7 +72,7 @@ class CognitiveOrchestratorController {
       });
       
     } catch (error) {
-      log.error('Error getting cognitive state:', error);
+      log('Error getting cognitive state:', error);
       res.status(500).json({ 
         success: false, 
         error: 'Failed to get cognitive state',
@@ -97,7 +97,7 @@ class CognitiveOrchestratorController {
       });
       
     } catch (error) {
-      log.error('Error getting architectural state:', error);
+      log('Error getting architectural state:', error);
       res.status(500).json({ 
         success: false, 
         error: 'Failed to get architectural state',
@@ -149,7 +149,7 @@ class CognitiveOrchestratorController {
       });
       
     } catch (error) {
-      log.error('Error configuring cognition:', error);
+      log('Error configuring cognition:', error);
       res.status(500).json({ 
         success: false, 
         error: 'Failed to configure cognition',
@@ -183,7 +183,7 @@ class CognitiveOrchestratorController {
       log('Cognitive pattern added', { patternId: pattern.id, patternName: pattern.name });
       
     } catch (error) {
-      log.error('Error adding cognitive pattern:', error);
+      log('Error adding cognitive pattern:', error);
       res.status(500).json({ 
         success: false, 
         error: 'Failed to add cognitive pattern',
@@ -215,7 +215,7 @@ class CognitiveOrchestratorController {
       log('Cognitive pattern removed', { patternId });
       
     } catch (error) {
-      log.error('Error removing cognitive pattern:', error);
+      log('Error removing cognitive pattern:', error);
       res.status(500).json({ 
         success: false, 
         error: 'Failed to remove cognitive pattern',
@@ -240,7 +240,7 @@ class CognitiveOrchestratorController {
       log('Cognitive system reset');
       
     } catch (error) {
-      log.error('Error resetting cognitive system:', error);
+      log('Error resetting cognitive system:', error);
       res.status(500).json({ 
         success: false, 
         error: 'Failed to reset cognitive system',
@@ -287,7 +287,7 @@ class CognitiveOrchestratorController {
       });
       
     } catch (error) {
-      log.error('Error generating orchestration recommendations:', error);
+      log('Error generating orchestration recommendations:', error);
       res.status(500).json({ 
         success: false, 
         error: 'Failed to generate orchestration recommendations',
@@ -334,7 +334,7 @@ class CognitiveOrchestratorController {
       });
       
     } catch (error) {
-      log.error('Error optimizing dialog flow:', error);
+      log('Error optimizing dialog flow:', error);
       res.status(500).json({ 
         success: false, 
         error: 'Failed to optimize dialog flow',
@@ -380,7 +380,7 @@ class CognitiveOrchestratorController {
       });
       
     } catch (error) {
-      log.error('Error generating adaptive response:', error);
+      log('Error generating adaptive response:', error);
       res.status(500).json({ 
         success: false, 
         error: 'Failed to generate adaptive response',
@@ -408,7 +408,7 @@ class CognitiveOrchestratorController {
       log(`Autogenesis ${enabled ? 'enabled' : 'disabled'}`);
       
     } catch (error) {
-      log.error('Error configuring autogenesis:', error);
+      log('Error configuring autogenesis:', error);
       res.status(500).json({ 
         success: false, 
         error: 'Failed to configure autogenesis',
@@ -455,7 +455,7 @@ class CognitiveOrchestratorController {
       });
       
     } catch (error) {
-      log.error('Error getting cognitive monitoring data:', error);
+      log('Error getting cognitive monitoring data:', error);
       res.status(500).json({ 
         success: false, 
         error: 'Failed to get cognitive monitoring data',

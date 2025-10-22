@@ -117,7 +117,7 @@ class OrchestratorController {
       });
       
     } catch (error) {
-      log.error('Failed to notify OpenCog orchestrator:', error);
+      log('Failed to notify OpenCog orchestrator:', error);
     }
   };
 
@@ -152,7 +152,7 @@ class OrchestratorController {
       });
       
     } catch (error) {
-      log.error('Error getting cognitive insights:', error);
+      log('Error getting cognitive insights:', error);
       res.status(500).json({ 
         success: false, 
         error: 'Failed to get cognitive insights',
